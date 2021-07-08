@@ -14,3 +14,26 @@ export function cleanAmpPath(pathname: string): string {
   pathname = pathname.replace(/\?$/, '')
   return pathname
 }
+
+export function isValidHostname(value: string) {
+  if (typeof value !== 'string') {
+    return false
+  }
+
+  if (value.endsWith('.')) {
+    value = value.slice(0, -1)
+  }
+
+  const validHostnameCharacters = /^[a-zA-Z0-9-.]{1,253}$/g
+  if (!validHostnameCharacters.test(value)) {
+    return false
+  }
+
+  const labels = value.split('.')
+  const isValid = labels.every(function (label) {
+    const validLabelCharacters = /^(?!-)([a-zA-Z0-9-]{1,63})(?<!-)$/g
+    return validLabelCharacters.test(label)
+  })
+
+  return isValid
+}

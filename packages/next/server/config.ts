@@ -9,6 +9,7 @@ import { defaultConfig, normalizeConfig } from './config-shared'
 import { loadWebpackHook } from './config-utils'
 import { ImageConfig, imageConfigDefault, VALID_LOADERS } from './image-config'
 import { loadEnvConfig } from '@next/env'
+import { isValidHostname } from './utils'
 
 export { DomainLocales, NextConfig, normalizeConfig } from './config-shared'
 
@@ -323,7 +324,12 @@ function assignDefaults(userConfig: { [key: string]: any }) {
       const invalidDomainItems = i18n.domains.filter((item) => {
         if (!item || typeof item !== 'object') return true
         if (!item.defaultLocale) return true
-        if (!item.domain || typeof item.domain !== 'string') return true
+        if (
+          !item.domain ||
+          typeof item.domain !== 'string' ||
+          !isValidHostname(item.domain)
+        )
+          return true
 
         let hasInvalidLocale = false
 

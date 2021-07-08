@@ -21,6 +21,7 @@ module.exports = {
     // should handle (these are only required when setting up domain routing)
     domains: [
       {
+        // Domain is any valid hostname without port, `localhost` is also accepted
         domain: 'example.com',
         defaultLocale: 'en-US',
         // other locales that should be handled on this domain
